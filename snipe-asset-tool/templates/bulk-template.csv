@@ -1,0 +1,4 @@
+Identifier,Action,AssignTo,AssignType,ExpectedCheckin,Notes
+LT-0142,Checkout,jsmith,User,19/12/2026,Enrolment loan
+5CG1234XYZ,Checkout,Caddy 03,Asset,,Back in caddy after repair
+LT-0187,Checkin,,,,Returned - charger missing

@@ -1,0 +1,6 @@
+{
+    "SnipeUrl": "https://snipeit.example.local",
+    "SkipCertificateCheck": false,
+    "CaddyKeywords": [ "caddy", "trolley", "cart" ],
+    "DefaultAssignType": "user"
+}
