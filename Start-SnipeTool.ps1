@@ -89,7 +89,7 @@ switch ($Mode) {
 
 while ($true) {
     Write-Header 'Snipe-IT asset tool'
-    Write-Host '  [1] Scan an asset (see details, then check in, check out or change status)'
+    Write-Host '  [1] Scan an asset'
     Write-Host '  [2] Check out many to one person / place (scan)'
     Write-Host '  [3] Check in many (scan)'
     Write-Host '  [4] Bulk check in / out from CSV'

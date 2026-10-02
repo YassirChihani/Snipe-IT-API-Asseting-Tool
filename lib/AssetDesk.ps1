@@ -55,7 +55,7 @@ function Set-AssetStatusSafely {
 
 # Asks who/where to check out to. Returns the target, or $null if cancelled.
 function Read-CheckoutTarget {
-    $typeKey = Read-Choice '  Check out to [U]ser, [L]ocation or [A]sset (e.g. a caddy)? [B] to cancel' @('U', 'L', 'A', 'B')
+    $typeKey = Read-Choice '  Target: [U]ser [L]ocation [A]sset [B]ack' @('U', 'L', 'A', 'B')
     if ($typeKey -eq 'B') { return $null }
     $type = @{ U = 'user'; L = 'location'; A = 'asset' }[$typeKey]
     $v = Read-Host "  Scan or type the $type, or press Enter to cancel"
@@ -92,7 +92,7 @@ function Invoke-AssetDesk {
         else { Write-Host '  [O] Check out' }
         Write-Host '  [S] Change status (mark as...)'
         Write-Host '  [A] Record audit (confirm it was physically seen today)'
-        Write-Host '  [Enter] Nothing - scan the next asset'
+        Write-Host '  [Enter] Next asset'
         $valid.Add('O'); $valid.Add('S'); $valid.Add('A')
         $choice = Read-Choice '  Action' $valid 'X'
         if ($choice -eq 'X') { continue }
@@ -104,16 +104,16 @@ function Invoke-AssetDesk {
             $t = Read-CheckoutTarget
             if (-not $t) { continue }
             $due  = Read-DateInput '  Expected return date (dd/MM/yyyy, +days, or Enter for none)'
-            $note = Read-Host '  Note (or Enter for none)'
+            $note = Read-Host '  Note [Enter=none]'
             $action = @{ Kind = 'Checkout'; Target = $t; Due = $due; Note = $note; Label = "check out to $($t.Label)" }
         }
         elseif ($choice -eq 'I') {
-            $note = Read-Host '  Note, e.g. "charger missing" (or Enter for none)'
+            $note = Read-Host '  Note [Enter=none]'
             $loc = $null
-            $locText = Read-Host '  Check in to a location? Type it, or press Enter to use its default'
+            $locText = Read-Host '  Location [Enter=default]'
             if ($locText) { $loc = Resolve-LocationInteractive -Value $locText }
             $status = $null
-            if (Read-YesNo '  Change its status too (e.g. to Broken)?') { $status = Select-StatusLabel 'Status after check-in' }
+            if (Read-YesNo '  Change status?') { $status = Select-StatusLabel 'Status after check-in' }
             $label = 'check in'
             if ($loc) { $label += " to $($loc.Label)" }
             if ($status) { $label += " and mark as '$($status.Name)'" }
@@ -125,7 +125,7 @@ function Invoke-AssetDesk {
             if ($a.AssignedType -and $status.Type -in 'undeployable', 'archived') {
                 if (-not (Read-YesNo "  '$($status.Name)' assets can't stay checked out, so it will be checked in from $(Get-AssignedLabel $a) first. OK?")) { continue }
             }
-            $note = Read-Host '  Note (or Enter for none)'
+            $note = Read-Host '  Note [Enter=none]'
             $action = @{ Kind = 'Status'; Status = $status; Note = $note; Label = "mark as '$($status.Name)'" }
         }
         elseif ($choice -eq 'A') {

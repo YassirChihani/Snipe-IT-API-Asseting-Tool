@@ -35,7 +35,7 @@ function Invoke-CsvBulk {
     Write-Header 'Bulk check in / out from CSV'
 
     if (-not $CsvPath) {
-        $CsvPath = "$(Read-Host 'Path to the CSV file (you can drag the file into this window), or Enter to go back')".Trim().Trim('"')
+        $CsvPath = "$(Read-Host 'CSV path [Enter=back]')".Trim().Trim('"')
         if (-not $CsvPath) { return }
     }
     if (-not (Test-Path $CsvPath -PathType Leaf)) { Write-Host "File not found: $CsvPath" -ForegroundColor Red; return }
@@ -49,7 +49,7 @@ function Invoke-CsvBulk {
     }
 
     $defaultType = if ($script:Ctx.Config.DefaultAssignType) { [string]$script:Ctx.Config.DefaultAssignType } else { 'user' }
-    Write-Host "Validating $($csv.Count) row(s). You'll only be asked about rows that need a decision.`n"
+    Write-Host "Validating $($csv.Count) row(s)...`n"
 
     # --- 1. Validate every row without changing anything ---
     $plan = [System.Collections.Generic.List[object]]::new()
@@ -122,9 +122,9 @@ function Invoke-CsvBulk {
     foreach ($s in $skips | Select-Object -First 10) { Write-Host "   Line $($s.Line) ($($s.AssetTag)): $($s.Problem)" -ForegroundColor DarkYellow }
 
     if ($transfer.Count) {
-        Write-Host "`n$($transfer.Count) asset(s) are already checked out to someone or something else:" -ForegroundColor Yellow
+        Write-Host "`n$($transfer.Count) asset(s) already assigned:" -ForegroundColor Yellow
         foreach ($t in $transfer | Select-Object -First 10) { Write-Host "   $($t.AssetTag): $($t.WasAssignedTo) -> $($t.Target)" }
-        if ((Read-Choice '  [T]ransfer them (check in, then out to the new target) or [S]kip them?' @('T', 'S')) -eq 'S') {
+        if ((Read-Choice '  [T]ransfer or [S]kip?' @('T', 'S')) -eq 'S') {
             foreach ($t in $transfer) { $t.Status = 'Skip'; $t.Problem = "Not transferred: $($t.Problem)" }
         }
     }

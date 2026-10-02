@@ -317,7 +317,7 @@ function Invoke-AuditRecord {
     catch {
         if ($_.Exception.Message -match '404|405|Not Found|Method Not Allowed') {
             $script:Ctx.AuditUnsupported = $true
-            Write-Host '  This Snipe-IT version does not support recording audits through the API - skipping audits.' -ForegroundColor DarkYellow
+            Write-Host '  Audit API not available on this version - audits skipped.' -ForegroundColor DarkYellow
             return 'Not supported'
         }
         "Failed: $($_.Exception.Message)"

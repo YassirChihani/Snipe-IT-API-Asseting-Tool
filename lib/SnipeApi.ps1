@@ -16,7 +16,7 @@ function Get-SnipeApiKey {
     if ($Reset -and (Test-Path $file)) { Remove-Item $file -Force -WhatIf:$false }
     if (-not (Test-Path $file)) {
         New-Item -ItemType Directory -Path $dir -Force -WhatIf:$false | Out-Null
-        $secure = Read-Host 'Paste your Snipe-IT API key (stored encrypted, for your Windows account only)' -AsSecureString
+        $secure = Read-Host 'Snipe-IT API token' -AsSecureString
         [pscredential]::new('snipe', $secure) | Export-Clixml -Path $file -WhatIf:$false
     }
     (Import-Clixml -Path $file).GetNetworkCredential().Password

@@ -27,7 +27,7 @@ function Invoke-ScanCheckout {
     $type = @{ U = 'user'; L = 'location'; A = 'asset' }[$typeKey]
     $target = $null
     while (-not $target) {
-        $v = Read-Host "Scan or type the $type (name, username, email, tag...) or press Enter to go back"
+        $v = Read-Host "$((Get-Culture).TextInfo.ToTitleCase($type)) [Enter=back]"
         if (-not $v) { return }
         $target = Resolve-Target -Type $type -Value $v
     }
@@ -37,7 +37,7 @@ function Invoke-ScanCheckout {
     $note     = Read-Host 'Note for every check-out this session (or Enter for none)'
     $policy   = Read-Choice 'If an asset is already checked out elsewhere: [A]sk each time, [T]ransfer it, [S]kip it (Enter = Ask)' @('A', 'T', 'S') 'A'
 
-    Write-Host "`nChecking out to $($target.Label). Scan assets; type UNDO to undo the last one; press Enter on an empty line to finish." -ForegroundColor Cyan
+    Write-Host "`nChecking out to $($target.Label). UNDO = undo last | Enter = finish" -ForegroundColor Cyan
     $rows = [System.Collections.Generic.List[object]]::new()
     $done = 0
     while ($true) {
@@ -90,13 +90,13 @@ function Invoke-ScanCheckin {
 
     $note = Read-Host 'Note for every check-in this session, e.g. "Returned, charger missing" (or Enter for none)'
     $locationId = 0
-    $loc = Read-Host 'Check in to a specific location? Type it, or press Enter to use each asset''s default'
+    $loc = Read-Host 'Location [Enter=asset default]'
     if ($loc) {
         $l = Resolve-LocationInteractive -Value $loc
         if ($l) { $locationId = $l.Id; Write-Host "  Location: $($l.Label)" -ForegroundColor Green }
     }
 
-    Write-Host "`nScan assets to check in; type UNDO to undo the last one; press Enter on an empty line to finish." -ForegroundColor Cyan
+    Write-Host "`nUNDO = undo last | Enter = finish" -ForegroundColor Cyan
     $rows = [System.Collections.Generic.List[object]]::new()
     $done = 0
     $today = (Get-Date).Date
