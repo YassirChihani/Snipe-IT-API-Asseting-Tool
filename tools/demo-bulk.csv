@@ -1,0 +1,7 @@
+Identifier,Action,AssignTo,AssignType,ExpectedCheckin,Notes
+LT-0023,Checkout,ahassan,User,+14,Enrolment loan
+LT-0024,Checkout,dokafor,User,+14,Enrolment loan
+LT-0022,Checkin,,,,Returned - charger missing
+990000456,Checkout,IT Office,Location,,Sent for repair
+LT-0009,Checkout,tobrien,User,,
+NOPE-123,Checkout,jsmith,User,,
