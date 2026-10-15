@@ -25,13 +25,12 @@ You need:
 
 - **A Windows PC** with PowerShell (built into Windows)
 - **A Snipe-IT account with API access**, and an API key. In Snipe-IT, click your name (top right) → **Manage API Keys** → **Create New Token**, and copy the key straight away, as it's only shown once. If you can't see Manage API Keys, ask your Snipe-IT administrator for API permission.
-- **Permission to use the tool** from whoever manages your Snipe-IT
 
 ### One-time setup
 
 1. **Extract the tool** somewhere easy to find, e.g. your Documents folder.
 2. **Set your Snipe-IT address:** open `config\settings.json` in Notepad and change `SnipeUrl` to your Snipe-IT's address (for example `https://snipeit.example.local`). Save it.
-3. **Unblock the files:** Windows blocks downloaded scripts until you say you trust them. Open PowerShell and run these two lines, one at a time:
+3. **Unblock the files:** Windows often blocks downloaded scripts until you say you trust them. Open PowerShell and run these two lines, one at a time:
    ```powershell
    cd "$HOME\Documents\snipe-asset-tool"
    Get-ChildItem -Recurse | Unblock-File
