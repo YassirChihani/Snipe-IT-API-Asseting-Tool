@@ -2,7 +2,7 @@
 
 A PowerShell tool that lets IT Technicians check assets in and out of Snipe-IT, audit laptop caddies and run loan reports from one interface window.
 
-> **Demo video:** [add your link here]  ·  **[User guide with screenshots](docs/USER-GUIDE.md)**
+**[User guide](docs/USER-GUIDE.md)**
 
 ![Auditing a laptop caddy](docs/images/07-caddy-audit-scanning.png)
 
